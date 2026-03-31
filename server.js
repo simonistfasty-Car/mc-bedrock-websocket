@@ -62,5 +62,10 @@ wss.on("connection", (ws, req) => {
             mcClient = null;
             console.log("Minecraft disconnected");
         }
+wss.on("connection", (ws, req) => {
+    console.log("🔥 Something connected:", req.headers['user-agent']);
+
+    ws.on("message", (message) => {
+        console.log("📩 Message:", message.toString());
     });
 });
