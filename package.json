@@ -1,1 +1,0 @@
-{  "name": "mc-bedrock-websocket",  "version": "1.0.0",  "description": "Minecraft Bedrock WebSocket control panel",  "main": "server.js",  "scripts": {    "start": "node server.js"  },  "dependencies": {    "express": "^4.18.2",    "ws": "^8.13.0"  }}
