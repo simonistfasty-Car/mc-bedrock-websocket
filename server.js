@@ -15,23 +15,24 @@ const wss = new WebSocketServer({ server });
 let mcClient = null;
 
 wss.on("connection", (ws, req) => {
-    console.log("Connection opened");
+    console.log("🔥 Connection opened:", req.headers['user-agent']);
 
     ws.on("message", (message) => {
         const data = message.toString();
+        console.log("📩 Message:", data);
 
         try {
             const json = JSON.parse(data);
 
-            // Minecraft sends "player_message" / "commandResponse"
+            // If it has a header, assume it's Minecraft
             if (json.header) {
-                console.log("Minecraft connected!");
+                console.log("✅ Minecraft connected!");
                 mcClient = ws;
             }
 
         } catch {
-            // If it's NOT JSON, assume it's from website
-            console.log("Website command:", data);
+            // Not JSON = website command
+            console.log("🌐 Website command:", data);
 
             if (mcClient) {
                 const cmdPacket = {
@@ -52,19 +53,17 @@ wss.on("connection", (ws, req) => {
 
                 mcClient.send(JSON.stringify(cmdPacket));
             } else {
-                ws.send("? Minecraft not connected");
+                ws.send("❌ Minecraft not connected");
             }
         }
+    });
 
     ws.on("close", () => {
+        console.log("🔌 Connection closed");
+
         if (ws === mcClient) {
             mcClient = null;
-            console.log("Minecraft disconnected");
+            console.log("⚠️ Minecraft disconnected");
         }
-wss.on("connection", (ws, req) => {
-    console.log("🔥 Something connected:", req.headers['user-agent']);
-
-    ws.on("message", (message) => {
-        console.log("📩 Message:", message.toString());
     });
 });
