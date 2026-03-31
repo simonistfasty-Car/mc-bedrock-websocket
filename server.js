@@ -55,7 +55,6 @@ wss.on("connection", (ws, req) => {
                 ws.send("? Minecraft not connected");
             }
         }
-    });
 
     ws.on("close", () => {
         if (ws === mcClient) {
